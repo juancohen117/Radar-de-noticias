@@ -1,0 +1,103 @@
+.news-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+/* Línea de acento superior con el color de la categoría (aparece en hover) */
+.news-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--cat, var(--brand));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+.news-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: color-mix(in srgb, var(--cat, var(--brand)) 40%, var(--border));
+}
+.news-card:hover::before {
+  transform: scaleX(1);
+}
+
+.news-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.news-card__rel {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-soft);
+  white-space: nowrap;
+}
+
+.news-card__title {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.38;
+  color: var(--text);
+  /* Recortamos a 3 líneas para que todas las tarjetas queden parejas */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.news-card__foot {
+  margin-top: auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.news-card__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+.news-card__source {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.news-card__date {
+  font-size: 0.72rem;
+  color: var(--text-soft);
+}
+
+.news-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--brand);
+  padding: 5px 2px;
+  transition: gap 0.18s ease, color 0.18s ease;
+}
+.news-card__link:hover {
+  gap: 9px;
+  color: var(--brand-strong);
+}

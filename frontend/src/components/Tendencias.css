@@ -1,0 +1,58 @@
+.tendencias {
+  padding: 22px;
+}
+
+.tendencias__head {
+  margin-bottom: 18px;
+}
+.tendencias__sub {
+  margin-top: 3px;
+  font-size: 0.82rem;
+  color: var(--text-soft);
+}
+
+.tendencias__nube {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+}
+
+/* Píldora de palabra en tendencia */
+.trend {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 600;
+  line-height: 1;
+  text-transform: capitalize;
+  padding: 8px 13px;
+  border-radius: var(--r-pill);
+  border: 1px solid transparent;
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
+  cursor: default;
+}
+.trend:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: var(--shadow-md);
+}
+
+/* Contador de menciones dentro de la píldora */
+.trend__veces {
+  font-size: 0.66em;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+  color: inherit;
+}
+/* En las píldoras claras (poca intensidad) el contador necesita más contraste */
+.trend[style*="var(--text)"] .trend__veces {
+  background: var(--surface-2);
+  color: var(--text-muted);
+}
+
+/* La palabra #1 lleva un sutil halo de marca */
+.trend[data-top="1"] {
+  box-shadow: 0 0 0 3px var(--brand-soft);
+}

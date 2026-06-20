@@ -1,0 +1,73 @@
+/* ---------- Píldoras de categoría ---------- */
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pill__punto {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex: none;
+}
+/* Cuando la píldora está activa, el punto se vuelve blanco para contrastar */
+.pill--activo .pill__punto {
+  background: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* ---------- Dropdown de fuente ---------- */
+.select {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.select__label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-soft);
+  padding-left: 2px;
+}
+.select__box {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.select__input {
+  appearance: none;
+  -webkit-appearance: none;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 9px 38px 9px 14px;
+  min-width: 190px;
+  cursor: pointer;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.select__input:hover {
+  border-color: var(--border-strong);
+}
+.select__input:focus-visible {
+  outline: none;
+  border-color: var(--brand);
+  box-shadow: var(--ring);
+}
+.select__chevron {
+  position: absolute;
+  right: 12px;
+  color: var(--text-soft);
+  pointer-events: none;
+}
+
+@media (max-width: 520px) {
+  .select,
+  .select__input {
+    width: 100%;
+  }
+}

@@ -1,0 +1,191 @@
+.stats__head {
+  margin-bottom: 16px;
+}
+
+/* Grilla de la analítica:
+   - KPI estrecho + panel de fuente arriba
+   - área de volumen ancha
+   - palabras top a todo el ancho
+   En móvil todo pasa a una sola columna. */
+.stats__grid {
+  display: grid;
+  /* minmax(0, 1fr) evita que el SVG de recharts ensanche la pista y dispare
+     un bucle de medición del ResponsiveContainer. */
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+/* Los items del grid no deben crecer por su contenido (mismo motivo). */
+.stats__grid > * {
+  min-width: 0;
+}
+.stat-kpi {
+  grid-column: span 1;
+}
+.stat-panel {
+  grid-column: span 3;
+}
+.stat-panel--ancho {
+  grid-column: span 4;
+}
+.stat-panel--full {
+  grid-column: span 4;
+}
+
+@media (min-width: 1100px) {
+  /* En pantallas grandes: KPI + fuente comparten fila; volumen y palabras debajo */
+  .stat-kpi { grid-column: span 1; }
+  .stat-panel { grid-column: span 3; }
+  .stat-panel--ancho { grid-column: span 2; }
+  .stat-panel--full { grid-column: span 2; }
+}
+
+@media (max-width: 760px) {
+  .stats__grid {
+    grid-template-columns: 1fr;
+  }
+  .stat-kpi,
+  .stat-panel,
+  .stat-panel--ancho,
+  .stat-panel--full {
+    grid-column: span 1;
+  }
+}
+
+/* ---------- KPI ---------- */
+.stat-kpi {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  padding: 22px;
+  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+}
+/* Acento de marca en el KPI */
+.stat-kpi::after {
+  content: "";
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: var(--grad);
+  opacity: 0.12;
+}
+.stat-kpi__label {
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-soft);
+}
+.stat-kpi__num {
+  font-family: var(--serif);
+  font-size: 3.4rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+.stat-kpi__pie {
+  font-size: 0.78rem;
+  color: var(--text-soft);
+  font-weight: 600;
+}
+
+/* ---------- Paneles con gráfico ---------- */
+.stat-panel {
+  padding: 18px 18px 14px;
+}
+.stat-panel__title {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.stat-panel__vacio {
+  color: var(--text-soft);
+  font-size: 0.85rem;
+  padding: 40px 0;
+  text-align: center;
+}
+
+/* Tipografía dentro de los gráficos recharts */
+.stat-panel :is(text) {
+  font-family: var(--sans);
+}
+.recharts-surface:focus {
+  outline: none;
+}
+
+/* ---------- Palabras top ---------- */
+.palabras {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 28px;
+}
+@media (max-width: 620px) {
+  .palabras {
+    grid-template-columns: 1fr;
+  }
+}
+.palabra {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.palabra__rank {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  border-radius: 7px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--brand);
+  background: var(--brand-soft);
+}
+.palabra__texto {
+  flex: none;
+  width: 96px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  text-transform: capitalize;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.palabra__barra {
+  flex: 1;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  overflow: hidden;
+}
+.palabra__relleno {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--grad);
+  animation: crecer 0.6s ease both;
+}
+@keyframes crecer {
+  from {
+    width: 0 !important;
+  }
+}
+.palabra__veces {
+  flex: none;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  width: 24px;
+  text-align: right;
+}

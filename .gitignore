@@ -1,0 +1,18 @@
+# Secretos y entorno virtual
+.env
+venv/
+
+# Python
+__pycache__/
+*.pyc
+
+# Base de datos local vieja
+*.db
+
+# Frontend
+node_modules/
+dist/
+
+# Archivos sueltos
+*.zip
+.ipynb_checkpoints/

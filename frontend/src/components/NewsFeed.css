@@ -1,0 +1,31 @@
+.feed__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.feed__count {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-soft);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 5px 12px;
+  border-radius: var(--r-pill);
+  white-space: nowrap;
+}
+
+/* Grilla responsive: las tarjetas se acomodan solas según el ancho disponible */
+.feed__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 520px) {
+  .feed__grid {
+    grid-template-columns: 1fr;
+  }
+}
