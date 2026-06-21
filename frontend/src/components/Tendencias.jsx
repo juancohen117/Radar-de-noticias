@@ -19,7 +19,7 @@ export default function Tendencias({ refreshKey }) {
     <section className="card tendencias" aria-label="Tendencias">
       <div className="tendencias__head">
         <span className="eyebrow">
-          <IconoTendencia width={14} height={14} /> En tendencia
+          <IconoTendencia width={14} height={14} aria-hidden="true" /> En tendencia
         </span>
         <h2 className="section-title">Lo más mencionado</h2>
         <p className="tendencias__sub">Palabras top en los titulares</p>
@@ -43,6 +43,8 @@ export default function Tendencias({ refreshKey }) {
 }
 
 // Renderiza las píldoras escaladas por frecuencia.
+// El texto se mantiene siempre en --text (nunca blanco condicional): así el
+// contraste no depende de qué tan "intensa" se vea la píldora, ni del tema.
 function Nube({ palabras }) {
   const maximo = Math.max(...palabras.map((p) => p.veces));
   const minimo = Math.min(...palabras.map((p) => p.veces));
@@ -55,20 +57,20 @@ function Nube({ palabras }) {
         const escala = (p.veces - minimo) / rango;
         // tamaño de fuente entre 0.82rem y 1.45rem
         const fontSize = 0.82 + escala * 0.63;
-        // intensidad del relleno (más mención = color más sólido)
-        const alpha = 0.1 + escala * 0.85;
+        // El relleno se mezcla con --surface-2 (no con "transparent"), así el
+        // resultado siempre queda dentro de un rango de contraste seguro,
+        // independiente del tema. El borde sí escala con más fuerza para
+        // reforzar la sensación de intensidad sin tocar el texto.
+        const relleno = 8 + escala * 14;
+        const borde = 20 + escala * 60;
         return (
           <span
             key={p.palabra}
             className="trend"
             style={{
               fontSize: `${fontSize}rem`,
-              background: `color-mix(in srgb, var(--brand) ${alpha * 100}%, transparent)`,
-              color: escala > 0.55 ? "#fff" : "var(--text)",
-              borderColor: `color-mix(in srgb, var(--brand) ${Math.min(
-                100,
-                alpha * 100 + 20
-              )}%, transparent)`,
+              background: `color-mix(in srgb, var(--accent) ${relleno}%, var(--surface-2))`,
+              borderColor: `color-mix(in srgb, var(--accent) ${borde}%, var(--border))`,
             }}
             // El #1 más mencionado se resalta un poco
             data-top={i === 0 ? "1" : undefined}

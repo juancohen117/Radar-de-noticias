@@ -1,13 +1,13 @@
 .tendencias {
-  padding: 22px;
+  padding: var(--space-6);
 }
 
 .tendencias__head {
-  margin-bottom: 18px;
+  margin-bottom: var(--space-4);
 }
 .tendencias__sub {
   margin-top: 3px;
-  font-size: 0.82rem;
+  font-size: var(--text-sm);
   color: var(--text-soft);
 }
 
@@ -15,44 +15,40 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 9px;
+  gap: var(--space-2);
 }
 
-/* Píldora de palabra en tendencia */
+/* Píldora de palabra en tendencia. El texto siempre es --text: la intensidad
+   de la mención se comunica con tamaño y borde, no con el color del texto. */
 .trend {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  gap: var(--space-2);
   font-weight: 600;
   line-height: 1;
   text-transform: capitalize;
-  padding: 8px 13px;
-  border-radius: var(--r-pill);
-  border: 1px solid transparent;
-  transition: transform 0.16s ease, box-shadow 0.16s ease;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  color: var(--text);
+  transition: box-shadow 0.15s ease;
   cursor: default;
 }
 .trend:hover {
-  transform: translateY(-2px) scale(1.03);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Contador de menciones dentro de la píldora */
 .trend__veces {
   font-size: 0.66em;
   font-weight: 700;
-  padding: 2px 7px;
+  padding: 2px var(--space-2);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.22);
-  color: inherit;
-}
-/* En las píldoras claras (poca intensidad) el contador necesita más contraste */
-.trend[style*="var(--text)"] .trend__veces {
-  background: var(--surface-2);
+  background: var(--surface);
   color: var(--text-muted);
 }
 
-/* La palabra #1 lleva un sutil halo de marca */
+/* La palabra #1 lleva un sutil halo de acento */
 .trend[data-top="1"] {
-  box-shadow: 0 0 0 3px var(--brand-soft);
+  box-shadow: 0 0 0 3px var(--accent-soft);
 }

@@ -16,6 +16,14 @@ import "./App.css";
 // Cada cuántos milisegundos se refresca solo el dashboard (2 minutos).
 const AUTO_REFRESH_MS = 2 * 60 * 1000;
 
+// Texto legible con las fuentes reales ("El Tiempo, Google Noticias y BBC"),
+// para no dejar nombres de medios hardcodeados en el footer.
+function listarFuentes(fuentes) {
+  if (!fuentes || fuentes.length === 0) return "múltiples fuentes de noticias";
+  if (fuentes.length === 1) return fuentes[0];
+  return `${fuentes.slice(0, -1).join(", ")} y ${fuentes[fuentes.length - 1]}`;
+}
+
 export default function App() {
   const { tema, alternar } = useTheme();
 
@@ -102,8 +110,8 @@ export default function App() {
       <footer className="footer">
         <div className="container">
           <p>
-            <strong>Radar de Noticias</strong> · Fuentes: El Tiempo y Google
-            Noticias · Hecho con React + Recharts
+            <strong>Radar de Noticias</strong> · Fuentes:{" "}
+            {listarFuentes(fuentes)} · Hecho con React + Recharts
           </p>
         </div>
       </footer>

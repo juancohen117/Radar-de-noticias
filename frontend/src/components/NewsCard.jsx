@@ -34,7 +34,7 @@ export default function NewsCard({ noticia }) {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Leer más <IconoEnlace />
+          Leer más <IconoEnlace aria-hidden="true" />
         </a>
       </div>
     </article>

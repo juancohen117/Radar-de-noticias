@@ -6,7 +6,7 @@ import "./estados.css";
 export default function EstadoVacio({ mensaje = "No hay resultados." }) {
   return (
     <div className="estado">
-      <span className="estado__icono estado__icono--neutro">
+      <span className="estado__icono estado__icono--neutro" aria-hidden="true">
         <IconoVacio width={26} height={26} />
       </span>
       <p className="estado__texto">{mensaje}</p>

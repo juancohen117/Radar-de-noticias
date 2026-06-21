@@ -11,7 +11,7 @@ export default function ThemeToggle({ tema, onCambiar }) {
       aria-label={esOscuro ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
       title={esOscuro ? "Modo claro" : "Modo oscuro"}
     >
-      {esOscuro ? <IconoSol /> : <IconoLuna />}
+      {esOscuro ? <IconoSol aria-hidden="true" /> : <IconoLuna aria-hidden="true" />}
     </button>
   );
 }

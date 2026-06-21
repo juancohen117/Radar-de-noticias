@@ -17,7 +17,6 @@ export default function Header({
         {/* Marca: logo "radar" + nombre + subtítulo */}
         <div className="brand">
           <span className="brand__logo" aria-hidden="true">
-            <span className="brand__ping" />
             <span className="brand__dot" />
           </span>
           <div>
@@ -40,9 +39,13 @@ export default function Header({
             className="btn"
             onClick={onRefrescar}
             disabled={actualizando}
+            aria-label={actualizando ? "Actualizando noticias" : "Actualizar noticias"}
           >
-            <IconoRefrescar className={actualizando ? "girando" : ""} />
-            <span className="btn__texto">
+            <IconoRefrescar
+              aria-hidden="true"
+              className={actualizando ? "girando" : ""}
+            />
+            <span className="btn__texto" aria-hidden="true">
               {actualizando ? "Actualizando…" : "Actualizar"}
             </span>
           </button>

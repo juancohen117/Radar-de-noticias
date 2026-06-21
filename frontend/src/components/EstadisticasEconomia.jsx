@@ -24,8 +24,8 @@ const PALETA = ["#4f46e5", "#a855f7", "#0891b2", "#16a34a", "#d97706", "#db2777"
 // tooltips se lean bien tanto en claro como en oscuro.
 function coloresGrafico(tema) {
   return tema === "dark"
-    ? { eje: "#8b91a3", grid: "#262c3b", area: "#818cf8", tooltipBg: "#1a1f2e", tooltipBorde: "#323a4d", texto: "#f1f3f9" }
-    : { eje: "#8b91a3", grid: "#eef0f5", area: "#4f46e5", tooltipBg: "#ffffff", tooltipBorde: "#e6e8ef", texto: "#0f1320" };
+    ? { eje: "#8b8b93", grid: "#2a2a30", area: "#818cf8", tooltipBg: "#18181b", tooltipBorde: "#38383f", texto: "#f4f4f5" }
+    : { eje: "#6b6f76", grid: "#e7e7ea", area: "#4f46e5", tooltipBg: "#ffffff", tooltipBorde: "#d4d4d9", texto: "#18181b" };
 }
 
 // Formatea "2026-06-13" -> "13 jun" para el eje X del gráfico temporal.
@@ -51,7 +51,7 @@ export default function EstadisticasEconomia({ refreshKey, tema }) {
       <div className="stats__head">
         <div>
           <span className="eyebrow">
-            <IconoGrafico width={14} height={14} /> Analítica · Economía
+            <IconoGrafico width={14} height={14} aria-hidden="true" /> Analítica · Economía
           </span>
           <h2 className="section-title">Estadísticas de Economía</h2>
         </div>
@@ -157,9 +157,9 @@ function TooltipPro({ active, payload, label, colores, sufijo = "", formateaEtiq
       style={{
         background: colores.tooltipBg,
         border: `1px solid ${colores.tooltipBorde}`,
-        borderRadius: 12,
+        borderRadius: "var(--radius-md)",
         padding: "8px 12px",
-        boxShadow: "0 8px 24px rgba(0,0,0,0.18)",
+        boxShadow: "var(--shadow-md)",
         color: colores.texto,
         fontSize: 13,
       }}

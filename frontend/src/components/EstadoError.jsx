@@ -6,7 +6,7 @@ import "./estados.css";
 export default function EstadoError({ mensaje, onReintentar }) {
   return (
     <div className="estado estado--error" role="alert">
-      <span className="estado__icono">
+      <span className="estado__icono" aria-hidden="true">
         <IconoAlerta width={26} height={26} />
       </span>
       <h3 className="estado__titulo">No se pudieron cargar los datos</h3>
@@ -16,7 +16,7 @@ export default function EstadoError({ mensaje, onReintentar }) {
       </p>
       {onReintentar && (
         <button className="btn btn--primary" onClick={onReintentar}>
-          <IconoRefrescar width={16} height={16} />
+          <IconoRefrescar width={16} height={16} aria-hidden="true" />
           Reintentar
         </button>
       )}

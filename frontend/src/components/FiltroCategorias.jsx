@@ -21,10 +21,10 @@ export default function FiltroCategorias({ categorias = [], valor, onCambiar, ca
   }
 
   return (
-    <div className="pills" role="tablist" aria-label="Filtrar por categoría">
+    <div className="pills" role="group" aria-label="Filtrar por categoría">
       <button
-        role="tab"
-        aria-selected={!valor}
+        type="button"
+        aria-pressed={!valor}
         className={`pill ${!valor ? "pill--activo" : ""}`}
         onClick={() => onCambiar("")}
       >
@@ -36,19 +36,27 @@ export default function FiltroCategorias({ categorias = [], valor, onCambiar, ca
         return (
           <button
             key={c}
-            role="tab"
-            aria-selected={activa}
+            type="button"
+            aria-pressed={activa}
             className={`pill ${activa ? "pill--activo" : ""}`}
             // Cuando está activa la teñimos con el color de su categoría.
+            // Los colores de categoría están elegidos para mantener AA con
+            // texto blanco en ambos temas (a diferencia de --accent, que en
+            // oscuro es claro y usa --on-accent en vez de blanco fijo).
             style={
               activa
-                ? { background: colorCategoria(c), borderColor: "transparent" }
+                ? {
+                    background: colorCategoria(c),
+                    borderColor: "transparent",
+                    color: "#fff",
+                  }
                 : { "--cat": colorCategoria(c) }
             }
             onClick={() => onCambiar(c)}
           >
             <span
               className="pill__punto"
+              aria-hidden="true"
               style={{ background: colorCategoria(c) }}
             />
             {c}

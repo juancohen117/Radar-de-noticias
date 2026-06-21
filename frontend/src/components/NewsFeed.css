@@ -2,18 +2,18 @@
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
 }
 
 .feed__count {
-  font-size: 0.8rem;
+  font-size: var(--text-sm);
   font-weight: 600;
   color: var(--text-soft);
   background: var(--surface);
   border: 1px solid var(--border);
-  padding: 5px 12px;
-  border-radius: var(--r-pill);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
   white-space: nowrap;
 }
 
@@ -21,7 +21,7 @@
 .feed__grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 16px;
+  gap: var(--space-4);
 }
 
 @media (max-width: 520px) {

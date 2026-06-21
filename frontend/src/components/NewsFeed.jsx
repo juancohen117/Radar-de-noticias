@@ -21,7 +21,7 @@ export default function NewsFeed({ categoria, fuente, refreshKey }) {
       <div className="feed__head">
         <div>
           <span className="eyebrow">
-            <IconoNoticias width={14} height={14} /> Feed
+            <IconoNoticias width={14} height={14} aria-hidden="true" /> Feed
           </span>
           <h2 className="section-title">Últimas noticias</h2>
         </div>

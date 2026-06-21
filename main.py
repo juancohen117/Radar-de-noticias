@@ -70,46 +70,61 @@ def parsear_fecha(entrada):
     # 'published_parsed' viene en horario UTC; calendar.timegm lo respeta bien.
     return datetime.fromtimestamp(calendar.timegm(t), tz=timezone.utc)
 
+def extraer_imagen(entrada):
+    # 1. Media RSS (media:content / media:thumbnail) — lo más común.
+    for clave in ("media_content", "media_thumbnail"):
+        medios = entrada.get(clave)
+        if medios and medios[0].get("url"):
+            return medios[0]["url"]
+    # 2. Enclosures (adjuntos tipo imagen).
+    for enlace in entrada.get("links", []):
+        if enlace.get("rel") == "enclosure" and "image" in enlace.get("type", ""):
+            if enlace.get("href"):
+                return enlace["href"]
+    # 3. Una <img> dentro del resumen HTML.
+    coincidencia = re.search(r'<img[^>]+src=["\']([^"\']+)["\']', entrada.get("summary", ""))
+    if coincidencia:
+        return coincidencia.group(1)
+    return None  # sin imagen
+
 
 
 def actualizar_noticias():
     conexion = psycopg2.connect(url)
-    conexion.autocommit = True  # cada inserción se confirma sola
+    conexion.autocommit = True
     cursor = conexion.cursor()
-    guardadas = 0
+    procesadas = 0
     for fuente, feed_url in FUENTES:
         try:
             feed = feedparser.parse(feed_url)
         except Exception as e:
             print(f"[!] No se pudo leer la fuente {fuente}: {e}")
-            continue  # si una fuente falla, seguimos con las demás
+            continue
         for entrada in feed.entries:
             titulo = entrada.get("title")
             enlace = entrada.get("link")
             if not titulo or not enlace:
-                continue  # sin título o enlace no sirve, la saltamos
+                continue
             try:
                 categoria = clasificar(titulo)
                 cursor.execute(
                     """
-                    INSERT INTO noticias (titulo, enlace, fecha, fuente, resumen, categoria, fecha_pub)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s)
-                    ON CONFLICT (enlace) DO NOTHING
+                    INSERT INTO noticias (titulo, enlace, fecha, fuente, resumen, categoria, fecha_pub, imagen)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                    ON CONFLICT (enlace) DO UPDATE
+                        SET imagen = EXCLUDED.imagen
+                        WHERE noticias.imagen IS NULL AND EXCLUDED.imagen IS NOT NULL
                     """,
                     (titulo, enlace, entrada.get("published", ""),
                     fuente, entrada.get("summary", ""), categoria,
-                    parsear_fecha(entrada))
+                    parsear_fecha(entrada), extraer_imagen(entrada))
                 )
-                guardadas += cursor.rowcount
+                procesadas += cursor.rowcount
             except Exception as e:
                 print(f"[!] Error con una noticia de {fuente}: {e}")
     conexion.close()
-    print(f"[Actualización] {guardadas} noticias nuevas")
-    return guardadas
-
-scheduler = BackgroundScheduler()
-scheduler.add_job(actualizar_noticias, "interval", minutes=15)
-scheduler.start()
+    print(f"[Actualización] {procesadas} procesadas")
+    return procesadas
 
 
 @app.get("/")

@@ -4,22 +4,22 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 8px;
-  padding: 40px 24px;
+  gap: var(--space-2);
+  padding: var(--space-10) var(--space-6);
   background: var(--surface);
   border: 1px dashed var(--border-strong);
-  border-radius: var(--r-lg);
+  border-radius: var(--radius-lg);
 }
 
 .estado__icono {
   display: grid;
   place-items: center;
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-  margin-bottom: 4px;
-  color: #ef4444;
-  background: color-mix(in srgb, #ef4444 12%, transparent);
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-1);
+  color: var(--danger);
+  background: var(--danger-soft);
 }
 .estado__icono--neutro {
   color: var(--text-soft);
@@ -27,25 +27,25 @@
 }
 
 .estado__titulo {
-  font-size: 1.05rem;
+  font-size: var(--text-md);
 }
 .estado__texto {
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: var(--text-base);
   max-width: 42ch;
 }
 .estado__hint {
-  font-size: 0.82rem;
+  font-size: var(--text-sm);
   color: var(--text-soft);
 }
 .estado__hint code {
   font-family: ui-monospace, Consolas, monospace;
   background: var(--surface-2);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   padding: 1px 6px;
-  font-size: 0.78rem;
+  font-size: var(--text-sm);
 }
 .estado .btn {
-  margin-top: 8px;
+  margin-top: var(--space-2);
 }
