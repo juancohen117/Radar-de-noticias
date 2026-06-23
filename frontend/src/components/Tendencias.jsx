@@ -7,8 +7,8 @@ import { IconoTendencia } from "./Icons";
 import "./Tendencias.css";
 
 // Sección de tendencias: las palabras más repetidas en los titulares (GET /tendencias).
-// Cada palabra es una píldora cuyo tamaño e intensidad de color crecen con su
-// frecuencia ("veces"), tipo nube de palabras pero ordenada y legible.
+// Lista ordenada por ranking, con una barra sutil que crece según la frecuencia
+// relativa de cada palabra (nada de burbujas de colores).
 export default function Tendencias({ refreshKey }) {
   const { data, cargando, error, recargar } = useFetch(
     () => api.tendencias(),
@@ -28,58 +28,46 @@ export default function Tendencias({ refreshKey }) {
       {error ? (
         <EstadoError mensaje={error} onReintentar={recargar} />
       ) : cargando ? (
-        <div className="tendencias__nube">
-          {Array.from({ length: 9 }).map((_, i) => (
-            <BloqueSkeleton key={i} width={70 + (i % 4) * 26} height={34} radius={999} />
+        <div className="tendencias__lista">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <BloqueSkeleton key={i} height={32} radius={6} />
           ))}
         </div>
       ) : data.length === 0 ? (
         <EstadoVacio mensaje="Aún no hay tendencias." />
       ) : (
-        <Nube palabras={data} />
+        <Lista palabras={data} />
       )}
     </section>
   );
 }
 
-// Renderiza las píldoras escaladas por frecuencia.
-// El texto se mantiene siempre en --text (nunca blanco condicional): así el
-// contraste no depende de qué tan "intensa" se vea la píldora, ni del tema.
-function Nube({ palabras }) {
+// Ranking con barra de intensidad: el ancho de la barra es relativo a la
+// palabra más mencionada, así la diferencia entre puestos se lee de un vistazo.
+function Lista({ palabras }) {
   const maximo = Math.max(...palabras.map((p) => p.veces));
-  const minimo = Math.min(...palabras.map((p) => p.veces));
-  const rango = Math.max(1, maximo - minimo);
 
   return (
-    <div className="tendencias__nube">
-      {palabras.map((p, i) => {
-        // escala 0..1 según la frecuencia relativa
-        const escala = (p.veces - minimo) / rango;
-        // tamaño de fuente entre 0.82rem y 1.45rem
-        const fontSize = 0.82 + escala * 0.63;
-        // El relleno se mezcla con --surface-2 (no con "transparent"), así el
-        // resultado siempre queda dentro de un rango de contraste seguro,
-        // independiente del tema. El borde sí escala con más fuerza para
-        // reforzar la sensación de intensidad sin tocar el texto.
-        const relleno = 8 + escala * 14;
-        const borde = 20 + escala * 60;
-        return (
-          <span
-            key={p.palabra}
-            className="trend"
-            style={{
-              fontSize: `${fontSize}rem`,
-              background: `color-mix(in srgb, var(--accent) ${relleno}%, var(--surface-2))`,
-              borderColor: `color-mix(in srgb, var(--accent) ${borde}%, var(--border))`,
-            }}
-            // El #1 más mencionado se resalta un poco
-            data-top={i === 0 ? "1" : undefined}
-          >
-            {p.palabra}
-            <b className="trend__veces">{p.veces}</b>
-          </span>
-        );
-      })}
-    </div>
+    <ol className="tendencias__lista">
+      {palabras.map((p, i) => (
+        <li
+          key={p.palabra}
+          className="trend-item"
+          data-top={i === 0 ? "1" : undefined}
+        >
+          <span className="trend-item__rank" aria-hidden="true">{i + 1}</span>
+          <div className="trend-item__cuerpo">
+            <span className="trend-item__palabra">{p.palabra}</span>
+            <span className="trend-item__barra">
+              <span
+                className="trend-item__relleno"
+                style={{ width: `${(p.veces / maximo) * 100}%` }}
+              />
+            </span>
+          </div>
+          <span className="trend-item__veces">{p.veces}</span>
+        </li>
+      ))}
+    </ol>
   );
 }

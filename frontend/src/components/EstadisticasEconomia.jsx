@@ -18,14 +18,15 @@ import { IconoGrafico } from "./Icons";
 import "./EstadisticasEconomia.css";
 
 // Paleta para las barras por fuente (se cicla si hubiera más fuentes).
-const PALETA = ["#4f46e5", "#a855f7", "#0891b2", "#16a34a", "#d97706", "#db2777"];
+// La primera coincide con el acento de marca, el resto la complementa.
+const PALETA = ["#b3121e", "#0891b2", "#92400e", "#16a34a", "#1d4ed8", "#be185d"];
 
 // Devuelve los colores de los gráficos según el tema actual, para que ejes y
 // tooltips se lean bien tanto en claro como en oscuro.
 function coloresGrafico(tema) {
   return tema === "dark"
-    ? { eje: "#8b8b93", grid: "#2a2a30", area: "#818cf8", tooltipBg: "#18181b", tooltipBorde: "#38383f", texto: "#f4f4f5" }
-    : { eje: "#6b6f76", grid: "#e7e7ea", area: "#4f46e5", tooltipBg: "#ffffff", tooltipBorde: "#d4d4d9", texto: "#18181b" };
+    ? { eje: "#8b8b93", grid: "#2a2a30", area: "#ff8a80", tooltipBg: "#18181b", tooltipBorde: "#38383f", texto: "#f4f4f5" }
+    : { eje: "#6b6f76", grid: "#e7e2d6", area: "#b3121e", tooltipBg: "#ffffff", tooltipBorde: "#cdc4b3", texto: "#1b1916" };
 }
 
 // Formatea "2026-06-13" -> "13 jun" para el eje X del gráfico temporal.

@@ -3,7 +3,7 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: var(--space-3);
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-5);
 }
 
 .feed__count {
@@ -17,7 +17,46 @@
   white-space: nowrap;
 }
 
-/* Grilla responsive: las tarjetas se acomodan solas según el ancho disponible */
+/* ---------- Distribución editorial: hero + destacadas + lista ---------- */
+.feed__editorial {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.feed__destacadas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: var(--space-5);
+}
+
+.feed__lista-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.feed__lista-title {
+  font-family: var(--font-serif);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--text);
+  padding-bottom: var(--space-3);
+}
+
+/* Columnas tipo periódico: cada tarjeta de fila evita partirse entre columnas */
+.feed__lista {
+  column-count: 2;
+  column-gap: var(--space-8);
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 720px) {
+  .feed__lista {
+    column-count: 1;
+  }
+}
+
+/* ---------- Grilla de skeletons (estado de carga) ---------- */
 .feed__grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));

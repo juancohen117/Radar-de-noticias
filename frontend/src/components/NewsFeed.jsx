@@ -7,7 +7,7 @@ import EstadoVacio from "./EstadoVacio";
 import { IconoNoticias } from "./Icons";
 import "./NewsFeed.css";
 
-// Feed principal de noticias en tarjetas.
+// Feed principal de noticias, distribuido en tres escalas editoriales.
 // Se vuelve a pedir cada vez que cambian la categoría, la fuente o refreshKey
 // (botón "Actualizar" / auto-refresh). Maneja carga, error y vacío.
 export default function NewsFeed({ categoria, fuente, refreshKey }) {
@@ -43,12 +43,48 @@ export default function NewsFeed({ categoria, fuente, refreshKey }) {
       ) : noticias.length === 0 ? (
         <EstadoVacio mensaje="No hay noticias para esta combinación de filtros. Prueba con otra categoría o fuente." />
       ) : (
-        <div className="feed__grid aparece">
-          {noticias.map((n) => (
-            <NewsCard key={n.id} noticia={n} />
+        <FeedEditorial noticias={noticias} />
+      )}
+    </section>
+  );
+}
+
+// Reparte el feed en tres tamaños de tarjeta, en vez de una grilla uniforme:
+// 1. Hero: la noticia más reciente CON imagen (el orden ya viene de la API
+//    por fecha_pub desc, así que basta tomar la primera que tenga `imagen`).
+//    Si ninguna tiene imagen, la más reciente hace de hero en su versión
+//    solo-texto: la sección principal nunca se queda vacía.
+// 2. Destacadas: las siguientes 4, en tarjetas medianas (con miniatura si hay).
+// 3. Fila: el resto, en una lista compacta de dos columnas tipo "más noticias".
+function FeedEditorial({ noticias }) {
+  const indiceHero = noticias.findIndex((n) => n.imagen);
+  const hero = indiceHero === -1 ? noticias[0] : noticias[indiceHero];
+  const resto = noticias.filter((n) => n.id !== hero.id);
+  const destacadas = resto.slice(0, 4);
+  const fila = resto.slice(4);
+
+  return (
+    <div className="feed__editorial aparece">
+      <NewsCard noticia={hero} variant="hero" />
+
+      {destacadas.length > 0 && (
+        <div className="feed__destacadas">
+          {destacadas.map((n) => (
+            <NewsCard key={n.id} noticia={n} variant="destacada" />
           ))}
         </div>
       )}
-    </section>
+
+      {fila.length > 0 && (
+        <div className="feed__lista-wrap">
+          <h3 className="feed__lista-title">Más noticias</h3>
+          <div className="feed__lista">
+            {fila.map((n) => (
+              <NewsCard key={n.id} noticia={n} variant="fila" />
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

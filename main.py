@@ -141,7 +141,7 @@ def obtener_noticias(categoria: str = None, fuente: str = None):
     conexion = psycopg2.connect(url)
     cursor = conexion.cursor()
 
-    consulta = "SELECT id, titulo, enlace, fecha, fuente, categoria FROM noticias"
+    consulta = "SELECT id, titulo, enlace, fecha, fuente, categoria, imagen, resumen FROM noticias"
     condiciones = []
     valores = []
 
@@ -163,7 +163,8 @@ def obtener_noticias(categoria: str = None, fuente: str = None):
 
     return [
         {"id": f[0], "titulo": f[1], "enlace": f[2],
-        "fecha": f[3], "fuente": f[4], "categoria": f[5]}
+        "fecha": f[3], "fuente": f[4], "categoria": f[5],
+        "imagen": f[6], "resumen": f[7]}
         for f in filas
     ]
 

@@ -11,44 +11,83 @@
   color: var(--text-soft);
 }
 
-.tendencias__nube {
+/* ---------- Ranking con barra de intensidad ---------- */
+.tendencias__lista {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-2);
+  flex-direction: column;
+  gap: 2px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-/* Píldora de palabra en tendencia. El texto siempre es --text: la intensidad
-   de la mención se comunica con tamaño y borde, no con el color del texto. */
-.trend {
-  display: inline-flex;
+.trend-item {
+  display: flex;
   align-items: center;
-  gap: var(--space-2);
-  font-weight: 600;
-  line-height: 1;
-  text-transform: capitalize;
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--border);
-  color: var(--text);
-  transition: box-shadow 0.15s ease;
-  cursor: default;
+  gap: var(--space-3);
+  padding-block: var(--space-2);
+  border-bottom: 1px solid var(--border);
 }
-.trend:hover {
-  box-shadow: var(--shadow-sm);
+.trend-item:last-child {
+  border-bottom: none;
 }
 
-/* Contador de menciones dentro de la píldora */
-.trend__veces {
-  font-size: 0.66em;
+.trend-item__rank {
+  flex: none;
+  width: 20px;
+  font-family: var(--font-serif);
   font-weight: 700;
-  padding: 2px var(--space-2);
-  border-radius: 999px;
-  background: var(--surface);
-  color: var(--text-muted);
+  font-size: var(--text-sm);
+  color: var(--text-soft);
+  text-align: right;
 }
 
-/* La palabra #1 lleva un sutil halo de acento */
-.trend[data-top="1"] {
-  box-shadow: 0 0 0 3px var(--accent-soft);
+.trend-item__cuerpo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.trend-item__palabra {
+  font-weight: 600;
+  font-size: var(--text-sm);
+  text-transform: capitalize;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trend-item__barra {
+  display: block;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  overflow: hidden;
+}
+.trend-item__relleno {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+}
+
+.trend-item__veces {
+  flex: none;
+  min-width: 22px;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--text-soft);
+  text-align: right;
+}
+
+/* La palabra #1 se resalta de forma sutil: número y conteo en el acento,
+   barra un poco más gruesa. Sin fondos ni burbujas de color. */
+.trend-item[data-top="1"] .trend-item__rank,
+.trend-item[data-top="1"] .trend-item__veces {
+  color: var(--accent);
+}
+.trend-item[data-top="1"] .trend-item__barra {
+  height: 6px;
 }

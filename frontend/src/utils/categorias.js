@@ -1,5 +1,5 @@
 // Colores por categoría.
-// Dan coherencia visual: el mismo color en el badge de la tarjeta, en las píldoras
+// Dan coherencia visual: el mismo color en el kicker de la tarjeta, en las píldoras
 // de filtro y en los gráficos. Si llega una categoría no prevista, generamos un
 // color estable a partir de su nombre (hash -> tono HSL) para que no quede gris.
 //

@@ -2,9 +2,11 @@
   position: sticky;
   top: 0;
   z-index: 50;
-  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
   backdrop-filter: saturate(180%) blur(12px);
   border-bottom: 1px solid var(--border);
+  /* Franja de acento, como la cabecera de un medio impreso */
+  box-shadow: inset 0 3px 0 var(--accent);
 }
 
 .app-header__inner {
@@ -15,7 +17,7 @@
   padding-block: var(--space-3);
 }
 
-/* ---------- Marca ---------- */
+/* ---------- Marca (masthead) ---------- */
 .brand {
   display: flex;
   align-items: center;
@@ -26,8 +28,8 @@
    marca calmada y consistente con el acento único de la app. */
 .brand__logo {
   flex: none;
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: var(--radius-md);
   background: var(--accent);
   display: grid;
@@ -41,10 +43,13 @@
 }
 
 .brand__title {
+  font-family: var(--font-serif);
   font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 .brand__subtitle {
-  margin: 1px 0 0;
+  margin: 2px 0 0;
   font-size: var(--text-sm);
   color: var(--text-soft);
 }
