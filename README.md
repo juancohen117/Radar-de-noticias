@@ -2,14 +2,16 @@
 
 Radar de Noticias reúne en un solo lugar lo que están publicando varios medios colombianos. Cada cierto tiempo revisa los feeds RSS de las fuentes configuradas, guarda lo nuevo, lo clasifica por tema y calcula qué palabras se están mencionando más en los titulares. Todo eso se muestra en una página web que se actualiza sola.
 
-Lo armé como proyecto académico para practicar desarrollo full-stack de punta a punta: desde traer y procesar los datos hasta presentarlos en una interfaz cuidada.
+Lo armé como proyecto académico para practicar desarrollo full-stack de punta a punta: desde traer y procesar los datos hasta presentarlos en una interfaz cuidada y dejar el proyecto desplegado en la nube.
+
+**Ver en vivo:** https://radar-de-noticias-3lmv.vercel.app
 
 ## Qué hace
 
-- Recoge noticias automáticamente cada 15 minutos de El Tiempo, Google Noticias, La FM y Portafolio.
+- Recoge noticias automáticamente de El Tiempo, Google Noticias, La FM y Portafolio.
 - Clasifica cada noticia por categoría (deportes, economía, política, judicial, tecnología…) según palabras clave del titular.
 - Detecta tendencias mostrando las palabras más repetidas del momento.
-- Ordena el feed por fecha de publicación, con filtros por categoría y por fuente que se pueden combinar.
+- Ordena el feed por fecha de publicación, con una noticia destacada y filtros por categoría y fuente combinables.
 - Incluye un panel de estadísticas de economía con gráficos.
 
 ## Stack
@@ -18,11 +20,25 @@ El backend está hecho en Python con FastAPI. Lee los RSS con feedparser, progra
 
 El frontend está hecho con React y Vite, y usa Recharts para las gráficas.
 
-## Cómo está organizado
+## Arquitectura de despliegue
 
-Son dos aplicaciones separadas que se comunican por HTTP. El backend recoge, clasifica, guarda y sirve los datos a través de una API REST; el frontend consume esa API y la presenta. Tenerlas separadas permite trabajarlas y desplegarlas de forma independiente.
+El proyecto está repartido en tres servicios, cada uno en la plataforma que mejor le conviene:
 
-## Cómo correrlo
+- **Frontend → Vercel.** El sitio en React/Vite se publica como estático en Vercel, que es ideal para frontends y redespliega solo con cada push a `main`.
+- **Backend → Render.** La API de FastAPI corre como web service en Render, un host que mantiene el proceso vivo (a diferencia de las plataformas serverless, que no encajan con un servidor que debe estar siempre disponible).
+- **Base de datos → Supabase.** La base PostgreSQL está alojada en Supabase, en la nube.
+
+El frontend (en Vercel) consume la API del backend (en Render) mediante la variable de entorno `VITE_API_URL`; el backend consulta la base de datos (en Supabase) mediante `DATABASE_URL`. Las dos partes se comunican por HTTP, con CORS configurado en el backend para aceptar el dominio del frontend.
+
+Como el plan gratuito de Render suspende el servicio tras un rato de inactividad, la recolección automática se dispara con un programador externo que invoca el endpoint `/actualizar` periódicamente, en lugar de depender solo del temporizador interno del proceso.
+
+Flujo general:
+
+```
+Navegador → Frontend (Vercel) → API (Render) → Base de datos (Supabase)
+```
+
+## Cómo correrlo localmente
 
 Necesitas Python 3, Node.js y una base de datos PostgreSQL.
 
@@ -61,7 +77,11 @@ npm install
 npm run dev
 ```
 
-Queda corriendo en http://localhost:5173.
+Queda corriendo en http://localhost:5173. Para que apunte a tu backend local, crea un archivo `.env` dentro de `frontend/` con:
+
+```
+VITE_API_URL=http://localhost:8000
+```
 
 ## API
 
@@ -73,4 +93,4 @@ Queda corriendo en http://localhost:5173.
 
 ## Estado
 
-En desarrollo. El backend ya está funcional —recolección, clasificación, tendencias y API—; el siguiente paso es rediseñar la interfaz.
+Desplegado y funcional. Backend, frontend y base de datos están en línea; el feed se actualiza con nuevas noticias de las fuentes configuradas.
