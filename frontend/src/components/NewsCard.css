@@ -1,7 +1,9 @@
 /* ============================================================
-   NewsCard — tres variantes editoriales: hero, destacada, fila.
+   NewsCard — tres variantes editoriales: hero, mediana, normal.
    Todas comparten kicker, meta y manejo de imagen (vía .news-card__media),
-   pero con tamaños y disposición muy distintos a propósito.
+   pero con tamaños y disposición muy distintos a propósito. Inspirado en
+   BBC Mundo: sin cajas con borde/sombra, solo foto + tipografía + espacio
+   en blanco; las fotos van a esquina viva (sin radio), como en prensa.
    ============================================================ */
 
 .news-card__meta {
@@ -50,16 +52,12 @@
 }
 
 /* ============================================================
-   Hero — la noticia principal
+   Hero — la noticia principal (izquierda del bloque en "L")
    ============================================================ */
 .news-card--hero {
   display: flex;
   flex-direction: column;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
+  height: 100%;
 }
 .news-card--hero:hover .news-card__media--hero img {
   transform: scale(1.025);
@@ -67,13 +65,13 @@
 
 .news-card__media--hero {
   display: block;
-  aspect-ratio: 16 / 8;
+  aspect-ratio: 16 / 9;
   background: var(--surface-2);
   overflow: hidden;
 }
 
 .news-card--hero .news-card__body {
-  padding: var(--space-8);
+  padding-top: var(--space-5);
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
@@ -105,15 +103,16 @@
    acento a la izquierda y un fondo levemente teñido marcan la jerarquía
    sin depender de una imagen rota o un placeholder gris. */
 .news-card--hero-texto {
+  padding: var(--space-8);
   border-left: 6px solid var(--accent);
   background: linear-gradient(180deg, var(--accent-soft), var(--surface) 55%);
 }
 .news-card--hero-texto .news-card__body {
-  padding-block: var(--space-10) var(--space-8);
+  padding-top: 0;
 }
 
 @media (max-width: 720px) {
-  .news-card--hero .news-card__body {
+  .news-card--hero-texto {
     padding: var(--space-6);
   }
   .news-card__media--hero {
@@ -122,49 +121,39 @@
 }
 
 /* ============================================================
-   Destacada — tarjeta mediana (con o sin miniatura)
+   Mediana — rejilla 2x2 a la derecha del hero (con o sin miniatura)
    ============================================================ */
-.news-card--destacada {
+.news-card--mediana {
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  box-shadow: var(--shadow-xs);
-  transition: box-shadow 0.15s ease, border-color 0.15s ease;
 }
-.news-card--destacada:hover {
-  border-color: var(--border-strong);
-  box-shadow: var(--shadow-sm);
-}
-.news-card--destacada:hover .news-card__media--destacada img {
+.news-card--mediana:hover .news-card__media--mediana img {
   transform: scale(1.04);
 }
 
-.news-card__media--destacada {
+.news-card__media--mediana {
   display: block;
   aspect-ratio: 16 / 10;
   background: var(--surface-2);
   overflow: hidden;
 }
 
-.news-card--destacada .news-card__body {
+.news-card--mediana .news-card__body {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  padding: var(--space-5);
+  padding-top: var(--space-3);
 }
 
 /* Sin imagen: una regla superior con el color de la categoría compensa el
    espacio visual que habría ocupado la miniatura. */
-.news-card--destacada:not(:has(.news-card__media)) .news-card__body {
+.news-card--mediana:not(:has(.news-card__media)) .news-card__body {
   border-top: 3px solid var(--cat);
 }
 
-.news-card__title--destacada {
+.news-card__title--mediana {
   font-family: var(--font-serif);
   font-size: var(--text-headline);
   font-weight: 600;
@@ -174,79 +163,68 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.news-card__title--destacada a {
+.news-card__title--mediana a {
   color: var(--text);
 }
-.news-card__title--destacada a:hover {
+.news-card__title--mediana a:hover {
   color: var(--accent);
 }
 
-.news-card--destacada .news-card__link {
+.news-card--mediana .news-card__link {
   margin-top: auto;
   padding-top: var(--space-2);
 }
 
 /* ============================================================
-   Fila — lista compacta de "Más noticias"
+   Normal — grilla uniforme de 3 columnas con el resto de noticias
    ============================================================ */
-.news-card--fila {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-4);
-  padding-block: var(--space-4);
-  border-bottom: 1px solid var(--border);
-  break-inside: avoid;
-}
-.news-card--fila:last-child {
-  border-bottom: none;
-}
-
-.news-card__media--fila {
-  flex: none;
-  width: 88px;
-  height: 88px;
-  border-radius: var(--radius-md);
-  background: var(--surface-2);
-  overflow: hidden;
-}
-.news-card--fila:hover .news-card__media--fila img {
-  transform: scale(1.06);
-}
-
-.news-card--fila .news-card__body {
-  flex: 1;
-  min-width: 0;
+.news-card--normal {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  height: 100%;
 }
-.news-card--fila .kicker {
-  font-size: 0.7rem;
+.news-card--normal:hover .news-card__media--normal img {
+  transform: scale(1.04);
 }
 
-.news-card__title--fila {
+.news-card__media--normal {
+  display: block;
+  aspect-ratio: 16 / 10;
+  background: var(--surface-2);
+  overflow: hidden;
+  margin-bottom: var(--space-3);
+}
+
+.news-card--normal .news-card__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* Sin imagen: tarjeta de solo texto, limpia — una regla superior con el
+   color de la categoría marca la jerarquía sin placeholder gris. */
+.news-card--normal:not(:has(.news-card__media)) .news-card__body {
+  padding-top: var(--space-3);
+  border-top: 3px solid var(--cat);
+}
+
+.news-card__title--normal {
   font-family: var(--font-serif);
   font-size: var(--text-md);
   font-weight: 600;
   line-height: 1.35;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.news-card__title--fila a {
+.news-card__title--normal a {
   color: var(--text);
 }
-.news-card__title--fila a:hover {
+.news-card__title--normal a:hover {
   color: var(--accent);
   text-decoration: underline;
   text-decoration-color: var(--cat);
   text-underline-offset: 3px;
-}
-
-@media (max-width: 480px) {
-  .news-card__media--fila {
-    width: 64px;
-    height: 64px;
-  }
 }

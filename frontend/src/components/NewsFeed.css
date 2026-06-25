@@ -17,42 +17,64 @@
   white-space: nowrap;
 }
 
-/* ---------- Distribución editorial: hero + destacadas + lista ---------- */
+/* ---------- Distribución editorial: bloque en "L" + grilla ---------- */
 .feed__editorial {
   display: flex;
   flex-direction: column;
-  gap: var(--space-8);
+  gap: var(--space-10);
 }
 
-.feed__destacadas {
+/* Bloque principal en forma de "L": hero a la izquierda, 2x2 a la derecha */
+.feed__bloque-l {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: var(--space-5);
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: var(--space-8);
+  align-items: start;
 }
 
-.feed__lista-wrap {
+.feed__medianas {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-6) var(--space-5);
+}
+
+.feed__grilla-wrap {
   display: flex;
   flex-direction: column;
 }
 
-.feed__lista-title {
+.feed__grilla-title {
   font-family: var(--font-serif);
   font-size: var(--text-lg);
   font-weight: 700;
   color: var(--text);
-  padding-bottom: var(--space-3);
-}
-
-/* Columnas tipo periódico: cada tarjeta de fila evita partirse entre columnas */
-.feed__lista {
-  column-count: 2;
-  column-gap: var(--space-8);
+  padding-bottom: var(--space-4);
   border-top: 1px solid var(--border);
+  padding-top: var(--space-6);
 }
 
-@media (max-width: 720px) {
-  .feed__lista {
-    column-count: 1;
+/* Grilla uniforme de 3 columnas para el resto de noticias */
+.feed__grilla {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-8) var(--space-6);
+}
+
+@media (max-width: 900px) {
+  .feed__bloque-l {
+    grid-template-columns: 1fr;
+  }
+  .feed__grilla {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .feed__medianas {
+    grid-template-columns: 1fr;
+  }
+  .feed__grilla {
+    grid-template-columns: 1fr;
   }
 }
 

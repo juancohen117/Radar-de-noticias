@@ -24,26 +24,27 @@ function limpiarResumen(html, maxLen = 170) {
 }
 
 // Tarjeta de una noticia, en tres tamaños editoriales:
-// - "hero": la noticia destacada principal (imagen grande + titular grande).
-// - "destacada": tarjeta mediana, con miniatura si hay imagen.
-// - "fila" (por defecto): fila compacta de la lista "Más noticias".
+// - "hero": la noticia destacada principal (imagen grande + titular grande),
+//   a la izquierda del bloque en "L".
+// - "mediana": las 4 tarjetas de la rejilla 2x2 a la derecha del hero.
+// - "normal" (por defecto): la grilla de 3 columnas con el resto de noticias.
 // La imagen es opcional (~15% de las noticias la tienen): si no hay, o si
 // falla la carga, la tarjeta cae con elegancia a su versión solo-texto.
-export default function NewsCard({ noticia, variant = "fila" }) {
+export default function NewsCard({ noticia, variant = "normal" }) {
   const { titulo, enlace, fecha, fuente, categoria, imagen, resumen } = noticia;
   const [imgError, setImgError] = useState(false);
 
   const relativo = tiempoRelativo(fecha);
   const tieneImagen = Boolean(imagen) && !imgError;
   const esHero = variant === "hero";
-  const esDestacada = variant === "destacada";
+  const esMediana = variant === "mediana";
   const Titulo = esHero ? "h2" : "h3";
 
   const claseImagen = esHero
     ? "news-card__media--hero"
-    : esDestacada
-    ? "news-card__media--destacada"
-    : "news-card__media--fila";
+    : esMediana
+    ? "news-card__media--mediana"
+    : "news-card__media--normal";
 
   return (
     <article
@@ -87,7 +88,7 @@ export default function NewsCard({ noticia, variant = "fila" }) {
           {relativo && <span className="news-card__rel">{relativo}</span>}
         </div>
 
-        {(esHero || esDestacada) && (
+        {(esHero || esMediana) && (
           <a
             className="news-card__link"
             href={enlace}

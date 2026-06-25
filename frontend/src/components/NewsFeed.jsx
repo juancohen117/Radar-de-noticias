@@ -49,38 +49,42 @@ export default function NewsFeed({ categoria, fuente, refreshKey }) {
   );
 }
 
-// Reparte el feed en tres tamaños de tarjeta, en vez de una grilla uniforme:
+// Reparte el feed en tres tamaños de tarjeta, al estilo de una portada
+// editorial (BBC Mundo: destacada + secundarias en "L", y debajo una grilla):
 // 1. Hero: la noticia más reciente CON imagen (el orden ya viene de la API
 //    por fecha_pub desc, así que basta tomar la primera que tenga `imagen`).
 //    Si ninguna tiene imagen, la más reciente hace de hero en su versión
 //    solo-texto: la sección principal nunca se queda vacía.
-// 2. Destacadas: las siguientes 4, en tarjetas medianas (con miniatura si hay).
-// 3. Fila: el resto, en una lista compacta de dos columnas tipo "más noticias".
+// 2. Mediana: las siguientes 4, en una rejilla 2x2 junto al hero (con
+//    miniatura si hay), formando el bloque principal en forma de "L".
+// 3. Normal: el resto, en una grilla uniforme de 3 columnas tipo "más noticias".
 function FeedEditorial({ noticias }) {
   const indiceHero = noticias.findIndex((n) => n.imagen);
   const hero = indiceHero === -1 ? noticias[0] : noticias[indiceHero];
   const resto = noticias.filter((n) => n.id !== hero.id);
-  const destacadas = resto.slice(0, 4);
-  const fila = resto.slice(4);
+  const medianas = resto.slice(0, 4);
+  const grilla = resto.slice(4);
 
   return (
     <div className="feed__editorial aparece">
-      <NewsCard noticia={hero} variant="hero" />
+      <div className="feed__bloque-l">
+        <NewsCard noticia={hero} variant="hero" />
 
-      {destacadas.length > 0 && (
-        <div className="feed__destacadas">
-          {destacadas.map((n) => (
-            <NewsCard key={n.id} noticia={n} variant="destacada" />
-          ))}
-        </div>
-      )}
+        {medianas.length > 0 && (
+          <div className="feed__medianas">
+            {medianas.map((n) => (
+              <NewsCard key={n.id} noticia={n} variant="mediana" />
+            ))}
+          </div>
+        )}
+      </div>
 
-      {fila.length > 0 && (
-        <div className="feed__lista-wrap">
-          <h3 className="feed__lista-title">Más noticias</h3>
-          <div className="feed__lista">
-            {fila.map((n) => (
-              <NewsCard key={n.id} noticia={n} variant="fila" />
+      {grilla.length > 0 && (
+        <div className="feed__grilla-wrap">
+          <h3 className="feed__grilla-title">Más noticias</h3>
+          <div className="feed__grilla">
+            {grilla.map((n) => (
+              <NewsCard key={n.id} noticia={n} variant="normal" />
             ))}
           </div>
         </div>
